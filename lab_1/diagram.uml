@@ -1,0 +1,46 @@
+@startuml
+
+entity Client {
+* client_id 
+client_name 
+email 
+phone_number 
+}
+
+entity Order {
+* order_id
+date
+status
+discount
+}
+
+entity OrderItem {
+* orderItem_id
+quantity
+price
+}
+
+entity Product {
+*product_id
+product_name
+price
+quantity
+description
+stock_status
+image_url
+}
+
+entity Worker {
+*worker_id
+role
+first_name
+last_name
+phone_number
+}
+
+Client ||--o{ Order
+Order }|--|{ OrderItem 
+OrderItem }o--|| Product
+Order }o--|| Worker
+
+@enduml

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "Client": {
+      "type": "object",
+      "properties": {
+        "client_id": { "type": "integer" },
+        "client_name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone_number": { "type": "integer" }
+      }
+    }
+  }
+}

@@ -9,7 +9,76 @@
         "client_name": { "type": "string" },
         "email": { "type": "string" },
         "phone_number": { "type": "integer" }
-      }
+      },
+      "required": ["client_id", "client_name", "client_number"]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "product_id": { "type": "integer" },
+        "product_name": { "type": "string" },
+        "price": { "type": "integer" },
+        "quantity": { "type": "integer" },
+        "description": { "type": "string" },
+        "stock_status": { "type": "string" },
+        "image_url": { "type": "string" }
+      },
+      "required": [
+        "product_id",
+        "product_name",
+        "price",
+        "quantity",
+        "stock_status"
+      ]
+    },
+    "OrderItem": {
+      "type": "object",
+      "properties": {
+        "orderItem_id": { "type": "integer" },
+        "quantity": { "type": "integer" },
+        "price": { "type": "integer" },
+        "product_id": { "$ref": "#/definitions/Product/properties/product_id" }
+      },
+      "required": ["orderItem_id", "quantity", "price", "product_id"]
+    },
+    "Worker": {
+      "type": "object",
+      "properties": {
+        "worker_id": { "type": "integer" },
+        "role": { "type": "string" },
+        "first_name": { "type": "string" },
+        "last_name": { "type": "string" },
+        "phone_number": { "type": "integer" }
+      },
+      "required": [
+        "worker_id",
+        "role",
+        "first_name",
+        "last_name",
+        "phone_number"
+      ]
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "order_id": { "type": "integer" },
+        "date": { "type": "string" },
+        "status": { "type": "string" },
+        "discount": { "type": "number" },
+        "client_id": { "$ref": "#/definitions/Client/properties/client_id" },
+        "orderItem_id": {
+          "$ref": "#/definitions/OrderItem/properties/orderItem_id"
+        },
+        "worker_id": { "$ref": "#/definitions/Worker/properties/worker_id" }
+      },
+      "required": [
+        "order_id",
+        "date",
+        "status",
+        "client_id",
+        "orderItem_id",
+        "worker_id"
+      ]
     }
   }
 }

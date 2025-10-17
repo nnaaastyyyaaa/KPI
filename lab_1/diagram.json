@@ -2,15 +2,42 @@
   "$schema": "https://json-schema.org/draft-07/schema#",
   "type": "object",
   "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "address_id": { "type": "integer" },
+        "country": { "type": "string" },
+        "city": { "type": "string" },
+        "street": { "type": "string" },
+        "postal_code": { "type": "integer" }
+      },
+      "required": ["address_id", "country", "city", "street", "postal_code"]
+    },
     "Client": {
       "type": "object",
       "properties": {
         "client_id": { "type": "integer" },
         "client_name": { "type": "string" },
         "email": { "type": "string" },
-        "phone_number": { "type": "integer" }
+        "phone_number": { "type": "string" },
+        "address_id": { "$ref": "#/definitions/Address/properties/address_id" }
       },
-      "required": ["client_id", "client_name", "client_number"]
+      "required": [
+        "client_id",
+        "client_name",
+        "email",
+        "phone_number",
+        "address_id"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "category_id": { "type": "integer" },
+        "category_name": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["category_id", "category_name", "description"]
     },
     "Product": {
       "type": "object",
@@ -21,7 +48,10 @@
         "quantity": { "type": "integer" },
         "description": { "type": "string" },
         "stock_status": { "type": "string" },
-        "image_url": { "type": "string" }
+        "image_url": { "type": "string" },
+        "category_id": {
+          "$ref": "#/definitions/Category/properties/category_id"
+        }
       },
       "required": [
         "product_id",
@@ -40,6 +70,40 @@
         "product_id": { "$ref": "#/definitions/Product/properties/product_id" }
       },
       "required": ["orderItem_id", "quantity", "price", "product_id"]
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "payment_id": { "type": "integer" },
+        "payment_date": { "type": "string" },
+        "payment_method": { "type": "string" },
+        "payment_status": { "type": "string" },
+        "price": { "type": "integer" }
+      },
+      "required": [
+        "payment_id",
+        "payment_date",
+        "payment_method",
+        "payment_status",
+        "price"
+      ]
+    },
+    "Shipment": {
+      "type": "object",
+      "properties": {
+        "shipment_id": { "type": "integer" },
+        "shipping_date": { "type": "string" },
+        "carrier": { "type": "string" },
+        "shipment_status": { "type": "string" },
+        "tracking_number": { "type": "string" }
+      },
+      "required": [
+        "shipment_id",
+        "shipping_date",
+        "carrier",
+        "shipment_status",
+        "tracking_number"
+      ]
     },
     "Worker": {
       "type": "object",
@@ -66,17 +130,24 @@
         "status": { "type": "string" },
         "discount": { "type": "number" },
         "client_id": { "$ref": "#/definitions/Client/properties/client_id" },
-        "orderItem_id": {
-          "$ref": "#/definitions/OrderItem/properties/orderItem_id"
+        "orderItems": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/OrderItem" }
         },
-        "worker_id": { "$ref": "#/definitions/Worker/properties/worker_id" }
+        "worker_id": { "$ref": "#/definitions/Worker/properties/worker_id" },
+        "shipment_id": {
+          "$ref": "#/definitions/Shipment/properties/shipment_id"
+        },
+        "payment_id": {
+          "$ref": "#/definitions/Payment/properties/payment_id"
+        }
       },
       "required": [
         "order_id",
         "date",
         "status",
         "client_id",
-        "orderItem_id",
+        "orderItems",
         "worker_id"
       ]
     }

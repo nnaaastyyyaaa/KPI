@@ -38,9 +38,43 @@ last_name
 phone_number
 }
 
+entity Address {
+* address_id
+country
+city
+street
+postal_code
+}
+
+entity Payment {
+* payment_id
+payment_method
+payment_date
+payment_status
+price
+}
+
+entity Shipment {
+* shipment_id
+carrier
+tracking_number
+shipment_status
+shipping_date
+}
+
+entity Category {
+* category_id
+category_name
+description
+}
+
 Client ||--o{ Order
 Order }|--|{ OrderItem 
 OrderItem }o--|| Product
 Order }o--|| Worker
+Payment }|--|| Order
+Shipment }|--|| Order
+Category }o--o{ Product
+
 
 @enduml

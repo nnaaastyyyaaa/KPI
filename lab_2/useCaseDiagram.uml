@@ -1,0 +1,38 @@
+@startuml
+:User: as us
+us --> (Create user account)
+us --> (Enter email and password)
+us --> (Search product in some category)
+us --> (Add product to cart)
+us --> (Submit order)
+us --> (Pick up order)
+us --> (Write a review)
+
+(Enter email and password) <|-- (View order history) : Extends
+(Enter email and password) <|-- (Track shipment status) : Extends
+(Enter email and password) <|-- (Track payment status) : Extends
+
+(Enter email and password) .> (Create user account) : Use
+
+(Search product in some category) <|-- (View photo) : Extends
+(Search product in some category) <|-- (Read description) : Extends
+(Search product in some category) <|-- (Compare price) : Extends
+
+(Add product to cart) <|-- (View cart) : Extends
+(Add product to cart) <|-- (Edit cart) : Extends
+
+(Submit order) .> (Create user account) : Use
+
+(Submit order) <|-- (Make payment) : Extends
+(Submit order) <|-- (Change address) : Extends
+(Submit order) <|-- (Choose address) : Extends
+(Submit order) <|-- (Choose payment method) : Extends
+
+:Shipping service: as sh
+sh --> (Delievers the order)
+sh --> (Recieve a delievery request)
+sh --> (Update a shipment status)
+
+(Pick up order) .> (Delievers the order) : Use
+(Track shipment status)  .> (Update a shipment status) : Use
+@enduml

@@ -35,4 +35,105 @@ sh --> (Update a shipment status)
 
 (Pick up order) .> (Delievers the order) : Use
 (Track shipment status)  .> (Update a shipment status) : Use
+
+
+actor Shop
+actor "Payment service" as PaymentService
+
+rectangle "E-commerce System" {
+    
+    usecase "Log in to admin page\nwith email and password" as Login
+    
+    usecase "Manage the product categories" as ManageCategories
+    usecase "Add new product" as AddProduct
+    usecase "Use Search filters" as UseSearchFilters
+    usecase "Bulk edit" as BulkEdit
+    
+    usecase "Manage the product catalogs" as ManageCatalogs
+    usecase "Add title" as AddTitle
+    usecase "Add images and all descriptions" as AddImages
+    usecase "Add price" as AddPrice
+    usecase "Add description" as AddDescription
+    usecase "Add meta description" as AddMeta
+    
+    usecase "Go to the 'Products' page, find an item,\nand edit stock_quantity" as EditStock
+    
+    usecase "Manage client accounts" as ManageClients
+    usecase "View order history" as ViewHistory
+    usecase "Edit client's profile like\nphone number or address" as EditProfile
+    
+    usecase "Can view and respond to client feedback" as ManageFeedback
+    usecase "Go to the 'Feedback' or\n'Reviews' section" as GoToFeedback
+    usecase "Click 'Reply' to write a public\nresponse to the client's review" as ReplyToReview
+    
+    usecase "Manage payment information" as ManagePayments
+    usecase "See the payment and it's status" as SeePaymentStatus
+    usecase "Open a 'Cancelled' order or\nconfirm 'Refund'" as ConfirmRefund
+    
+    usecase "See 'Orders' page" as SeeOrders
+    usecase "Use search filters (paid,\nshipped, cancelled, unfulfilled etc.)" as FilterOrders
+    usecase "Create an order manually" as CreateManualOrder
+    usecase "Export a CSV of orders" as ExportOrders
+    usecase "Search for an order by\nClient name, Order ID, etc." as SearchOrder
+    
+    usecase "Process orders and update status" as ProcessOrders
+    usecase "Verify payment status" as VerifyPayment
+    usecase "Verify shipping address" as VerifyAddress
+    usecase "Add a tracking number" as AddTracking
+    
+    usecase "Cancel an order" as CancelOrder
+    
+    usecase "Can process a payment" as ProcessPayment
+    usecase "Can issue a refund" as IssueRefund
+    usecase "Can verify a payment method" as VerifyMethod
+}
+    
+Shop -- Login
+Shop -- ManageCategories
+Shop -- ManageCatalogs
+Shop -- ManageClients
+Shop -- ManageFeedback
+Shop -- ManagePayments
+Shop -- EditStock
+Shop -- ProcessOrders
+Shop -- CancelOrder
+Shop -- SeeOrders
+
+PaymentService -- ProcessPayment
+PaymentService -- IssueRefund
+PaymentService -- VerifyMethod
+
+AddProduct .> ManageCategories : <<Extends>>
+UseSearchFilters .> ManageCategories : <<Extends>>
+BulkEdit .> ManageCategories : <<Extends>>
+
+AddTitle .> ManageCatalogs : <<Extends>>
+AddImages .> ManageCatalogs : <<Extends>>
+AddPrice .> ManageCatalogs : <<Extends>>
+AddDescription .> ManageCatalogs : <<Extends>>
+AddMeta .> ManageCatalogs : <<Extends>>
+
+ViewHistory .> ManageClients : <<Extends>>
+EditProfile .> ManageClients : <<Extends>>
+
+GoToFeedback .> ManageFeedback : <<Extends>>
+ReplyToReview .> ManageFeedback : <<Extends>>
+
+SeePaymentStatus .> ManagePayments : <<Extends>>
+ConfirmRefund .> ManagePayments : <<Extends>>
+
+VerifyPayment .> ProcessOrders : <<Extends>>
+VerifyAddress .> ProcessOrders : <<Extends>>
+AddTracking .> ProcessOrders : <<Extends>>
+
+FilterOrders .> SeeOrders : <<Extends>>
+CreateManualOrder .> SeeOrders : <<Extends>>
+ExportOrders .> SeeOrders : <<Extends>>
+SearchOrder .> SeeOrders : <<Extends>>
+
+ManageClients ..> VerifyMethod : <<Use>>
+ManagePayments ..> IssueRefund : <<Use>>
+ProcessOrders ..> ProcessPayment : <<Use>>
+SeeOrders ..> ProcessPayment : <<Use>>
+
 @enduml

@@ -39,8 +39,6 @@ sh --> (Update a shipment status)
 
 actor Shop
 actor "Payment service" as PaymentService
-
-rectangle "E-commerce System" {
     
     usecase "Log in to admin page\nwith email and password" as Login
     
@@ -86,7 +84,7 @@ rectangle "E-commerce System" {
     usecase "Can process a payment" as ProcessPayment
     usecase "Can issue a refund" as IssueRefund
     usecase "Can verify a payment method" as VerifyMethod
-}
+
     
 Shop -- Login
 Shop -- ManageCategories
@@ -136,4 +134,9 @@ ManagePayments ..> IssueRefund : <<Use>>
 ProcessOrders ..> ProcessPayment : <<Use>>
 SeeOrders ..> ProcessPayment : <<Use>>
 
+(Create user account) .> ManageClients : Use
+(Search product in some category) .> ManageCategories : Use
+(Add product to cart) .> ManageClients : Use
+ManageFeedback .>  (Write a review) : Use
+ProcessOrders .> (Submit order) : Use
 @enduml

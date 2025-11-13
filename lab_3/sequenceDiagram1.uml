@@ -1,0 +1,52 @@
+@startuml
+actor Client as c
+participant OnlineShop as os
+actor Admin as a
+
+activate c
+c -> os : 1.View catalogue
+activate os
+c -> os : 2.Add product to cart
+c -> os : 3.Confirm order
+c -> os : 4.Pay for order
+c <-- os : 5.Payment confirmation
+
+os -> a: 6.Order notification
+deactivate os
+activate a
+os <- a: 7.Verify and approve order
+deactivate a
+activate os
+c <- os: 8.Order approval
+deactivate os
+
+deactivate c
+
+
+alt until order is delievered
+activate a
+ os <- a: 9.Update order status
+ activate os
+ c <- os: 10.Order status notification
+ deactivate os
+ deactivate a
+ activate c
+end
+
+c -> os: 10.Order recieved confirmation
+deactivate c
+activate os
+os -> a: 11.Order recieved confirmation
+activate a
+os <- a: 12.Complete order
+deactivate a
+deactivate os
+
+activate c
+c -> os : 14.Write review
+activate os
+activate a
+os -> a: 15.Review notification
+destroy os
+
+@enduml

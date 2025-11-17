@@ -1,0 +1,49 @@
+@startuml
+actor Client as c
+participant "Online shop" as os
+actor Admin as a
+participant "Payment System" as ps
+
+activate c
+c -> os : 1.Submit Refund Request
+activate os
+c <-- os : 2.Acknowledge request received
+deactivate c
+
+os -> a : 3.Notification: New Refund request
+activate a
+os <- a : 4.Request Refund details
+os -> a : 5.Provide Refund details
+os <- a : 6.Approve Refund request
+deactivate a
+
+activate c
+c <- os : 7.Notification: Your refund is approved
+deactivate c
+
+os -> os : 8.Update order status to: "Awaiting Refund"
+
+os -> ps : 9.Initiate Refund Transaction
+activate ps
+os <-- ps : 10.Confirm Successfull Transaction
+deactivate ps
+
+os -> os : 11.Update order status to: "Refunded"
+
+activate c
+c <- os : 12.Notification: Refund for your request is complete
+deactivate c
+
+os -> a : 13.Notification: New Refund request
+activate a
+
+activate c
+c -> os : 14.View updated order status
+deactivate c
+
+os -> a : 15.Close refund ticket
+deactivate a
+
+destroy os
+
+@enduml

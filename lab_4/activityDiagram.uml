@@ -1,0 +1,66 @@
+@startuml
+|Client|
+start
+:View catalogue;
+:Add product to cart;
+:Create an order;
+
+|Online shop|
+:Processing order;
+
+repeat
+  :Request payment;
+
+  |Client|
+  :Pay for order;
+
+  |Online shop|
+  :Process payment;
+
+repeat while (payment failed?) is (yes)
+:Accept order;
+:Create receipt;
+
+|Admin|
+fork
+:Approve order;
+
+|Online shop|
+:Send order information;
+
+|Admin|
+fork again
+repeat
+:Update order status;
+:Notifictaion>
+
+|Client|
+:Notification<;
+repeat while (order is delievered?) is (yes)
+fork
+:Write a review;
+:Publish the review;
+
+|Online shop|
+:Notify admin;
+
+|Admin|
+:Analize review;
+stop
+
+
+|Client|
+fork again
+:Confirm order recieving;
+
+|Online shop|
+:Process confirmation;
+
+|Admin|
+:Complete order;
+if(review) then 
+:Analize review;
+stop
+else
+stop
+@enduml

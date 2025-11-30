@@ -1,0 +1,48 @@
+@startuml
+component "HTTP API" as API
+component "Payment System" as PS
+component "Shipment System" as SS
+database "MySQL DB" as DB
+
+package "API server"{
+package "Modules" as M {
+API - M
+package "Auth Module" {
+  [Auth Controller] - [Auth Service] 
+  [Auth Service] - [Auth Repository]
+}
+
+package "Catalogue Module"{
+  [Catalogue Controller] - [Catalogue Service] 
+  [Catalogue Service] - [Catalogue Repository] 
+}
+
+package "Cart Module"{
+  [Cart Controller] - [Cart Service] 
+  [Cart Service] - [Cart Repository]
+}
+
+package "Order Service" {
+  [Order Controller] -> [Order Service]
+  [Order Service] -> [Order Repository]
+}
+
+component "SQL Connection Pool" as SQL
+
+}
+
+}
+
+
+[Cart Service] -> [Order Controller]
+[Order Service] - PS
+[Order Service] - SS
+
+
+
+[Catalogue Repository] --> SQL
+[Cart Repository] --> SQL
+[Auth Repository] --> SQL
+[Order Repository] -->SQL
+SQL --> DB
+@enduml

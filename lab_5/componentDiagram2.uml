@@ -1,0 +1,76 @@
+@startuml
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+left to right direction
+
+package "Web App" {
+
+    package "Pages" {
+        component "Cart Page" as CartPage
+        component "Auth Page" as AuthPage
+        component "Checkout Page" as CheckoutPage
+        
+        package "Catalogue Context" {
+            component "Catalogue Page" as CatPage
+            component "Filters Component" as Filters
+            CatPage -right- Filters
+        }
+    }
+
+    package "Stores" {
+        component "Cart Store" as CartStore
+        component "Auth Store" as AuthStore
+        component "Order Store" as OrderStore
+        component "Catalogue Store" as CatStore
+    }
+
+    package "API" {
+        component "Cart API" as CartApi
+        component "Auth API" as AuthApi
+        component "Order API" as OrderApi
+        component "Catalogue API" as CatApi
+    }
+
+    package "HTTP Client" {
+        component "Axios Config" as AxiosConfig
+    }
+
+    package "Shared Components" {
+        component "Footer"
+        component "Header"
+        component "Buttons/Input" as UIKit
+    }
+
+    database "Local Storage" as LocalStorage
+    interface "Validator" as Validator
+}
+
+component "API Server" as ApiServer
+interface "HTTP API" as HttpApi
+
+CartPage --> CartStore
+AuthPage --> AuthStore
+CheckoutPage --> OrderStore
+CatPage --> CatStore
+
+CartStore --> CartApi
+AuthStore --> AuthApi
+OrderStore --> OrderApi
+CatStore --> CatApi
+
+CartStore -- Validator
+AuthStore -- Validator
+CatStore -- Validator
+Validator -- LocalStorage
+
+CartApi -- AxiosConfig
+AuthApi -- AxiosConfig
+OrderApi -- AxiosConfig
+CatApi -- AxiosConfig
+
+AxiosConfig -- HttpApi
+HttpApi -- ApiServer
+
+@enduml
